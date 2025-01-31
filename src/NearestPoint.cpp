@@ -9,7 +9,7 @@
 using namespace std;
 
 double NearestPoint::getMinDis() const {
-    return m_minDis;
+    return sqrt(m_minDis);
 }
 
 void NearestPoint::merge(int L, int mid, int R) {          // 按照 y 坐标进行归并排序的合并操作 

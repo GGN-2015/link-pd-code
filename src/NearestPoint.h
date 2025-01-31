@@ -1,16 +1,13 @@
 // 修改自我自己 2023-03-23 写的平面最近点对
 // 提交记录：https://www.luogu.com.cn/record/200874900
+#pragma once
 
 #include <algorithm>
 #include <tuple>
 #include <vector>
 #include <limits>
 
-// 描述二维空间中的点集合
-struct Point2d {
-    double x, y;
-};
-typedef std::vector<Point2d> Point2dList;
+#include "DataType.h"
 
 class NearestPoint {
 public:
