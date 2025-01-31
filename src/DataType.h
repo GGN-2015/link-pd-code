@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+static const double EPS = 1e-7;
+
 // 保留六位小数
 static std::string doubleToString(double value, int precision=6) { 
     std::ostringstream out;
@@ -73,6 +75,18 @@ struct Point3d {
             return {x / len, y / len, z / len};
         }
         return {0, 0, 0};
+    }
+};
+typedef std::vector<Point3d> Point3dList;
+
+// 用于描述一个三维坐标系
+struct Coord3d {
+    Point3d u, v, w;
+    inline std::string serialize() const {
+        return "("
+            + u.serialize() + ","
+            + v.serialize() + ","
+            + w.serialize() + ")";
     }
 };
 

@@ -9,22 +9,31 @@ using namespace std;
 
 int main() {
     cout << "-DTEST_RANDOM_COORD3D -DTEST\n";
-
-    // 随机数生成器
-    std::random_device rd;
+    std::random_device rd; // 随机数生成器
     std::mt19937 gen(rd());
 
-    Point3d u, v, w;
-    generateRandomBasis(gen, u, v, w);
+    Coord3d coord; // 生成一个随机坐标系
+    generateRandomBasis(gen, coord);
 
-    const double EPS = 1e-7;
-
-    auto udv = abs(u.dot(v));
-    auto udw = abs(u.dot(w));
-    auto vdw = abs(v.dot(w));
+    auto udv = abs(coord.u.dot(coord.v)); // 检查是否是合法的坐标系
+    auto udw = abs(coord.u.dot(coord.w));
+    auto vdw = abs(coord.v.dot(coord.w));
     assert(udv < EPS && udw < EPS && vdw < EPS);
-    cout << "OK:" << u.serialize() << v.serialize() << w.serialize() << endl;
+    cout << "OK:" << coord.serialize() << endl;
 
+    auto ex = Point3d{1, 0, 0}; // 计算原坐标系在新坐标系下的坐标
+    auto ey = Point3d{0, 1, 0};
+    auto ez = Point3d{0, 0, 1};
+    auto nex = getNewCoordForPoint3d(ex, coord);
+    auto ney = getNewCoordForPoint3d(ey, coord);
+    auto nez = getNewCoordForPoint3d(ez, coord);
+    auto old_trans = Coord3d{nex, ney, nez};
+
+    auto test_vec = randomVector(gen); // 生成用于测试的随机向量
+    auto pnew     = getNewCoordForPoint3d(test_vec, coord);
+    auto pback    = getNewCoordForPoint3d(pnew, old_trans);
+    assert(test_vec.serialize() == pback.serialize());
+    cout << "OK:" << test_vec.serialize() << " " << pnew.serialize() << " " << pback.serialize() << endl;
     return 0;
 }
 
