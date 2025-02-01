@@ -7,7 +7,7 @@
 #include <vector>
 #include <limits>
 
-#include "DataType.h"
+#include <DataType.h>
 
 class NearestPoint {
 public:

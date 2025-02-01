@@ -4,7 +4,7 @@
 #include <ctime>
 #include <random>
 
-#include "RandomCoord3d.h"
+#include <RandomCoord3d.h>
 
 // 生成随机三维向量
 Point3d randomVector(std::mt19937& gen) {

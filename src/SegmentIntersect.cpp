@@ -1,5 +1,5 @@
 #include <cassert>
-#include "SegmentInteresect.h"
+#include <SegmentInteresect.h>
 
 // 计算向量 pq 和 pr 的叉积，判断点 r 相对于线段 pq 的位置
 int orientation(const Point2d& p, const Point2d& q, const Point2d& r) {

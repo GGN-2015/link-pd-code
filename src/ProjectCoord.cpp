@@ -1,7 +1,7 @@
 #include <cassert>
 
-#include "ProjectCoord.h"
-#include "NearestPoint.h"
+#include <ProjectCoord.h>
+#include <NearestPoint.h>
 
 const int MAX_TRY_CNT = 10;
 

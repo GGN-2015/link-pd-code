@@ -1,9 +1,10 @@
 #include <cassert>
 #include <iostream>
-#include "SegmentInteresect.h"
+#include <test/TestUtils.h>
+#include <SegmentInteresect.h>
 using namespace std;
 
-void testSegmentIntersect() {
+void testSegmentIntersect() { /* 用于测试线段求交的正确性 */
     {
         Point2d p1{1, 1}, q1{10, 1};
         Point2d p2{1, 2}, q2{10, 2};
@@ -12,7 +13,7 @@ void testSegmentIntersect() {
 
         auto si = SegmentInteresect(s1, s2);
         assert(!si.exist());
-        cout << "    OK:" << s1.serialize() << s2.serialize() << "(no crossing)" << endl;
+        cout << OK_FLAG << s1.serialize() << s2.serialize() << "(no crossing)" << endl;
     }
     {
         Point2d p1{1, 1}, q1{2, 2};
@@ -27,7 +28,7 @@ void testSegmentIntersect() {
         si.getIntersect(t1, t2, pt);
         assert(abs(t1 - 0.5) < EPS);
         assert(abs(t2 - 0.5) < EPS);
-        cout << "    OK:" << s1.serialize() << s2.serialize() << "(" << t1 << "," << t2 << ")" << endl;
+        cout << OK_FLAG << s1.serialize() << s2.serialize() << "(" << t1 << "," << t2 << ")" << endl;
     }
     {
         Point2d p1{0, 0}, q1{2, 2};
@@ -42,6 +43,6 @@ void testSegmentIntersect() {
         si.getIntersect(t1, t2, pt);
         assert(abs(t1 - 1.0/3) < EPS);
         assert(abs(t2 - 2.0/3) < EPS);
-        cout << "    OK:" << s1.serialize() << s2.serialize() << "(" << t1 << "," << t2 << ")" << endl;
+        cout << OK_FLAG << s1.serialize() << s2.serialize() << "(" << t1 << "," << t2 << ")" << endl;
     }
 }

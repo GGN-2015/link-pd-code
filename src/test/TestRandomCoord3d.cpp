@@ -2,10 +2,11 @@
 #include <iostream>
 using namespace std;
 
-#include "DataType.h"
-#include "RandomCoord3d.h"
+#include <test/TestUtils.h>
+#include <DataType.h>
+#include <RandomCoord3d.h>
 
-void testRandomCoord3d() {
+void testRandomCoord3d() { /* 用于测试随机生成三维投影方向 */
     std::random_device rd; // 随机数生成器
     std::mt19937 gen(rd());
 
@@ -16,7 +17,7 @@ void testRandomCoord3d() {
     auto udw = abs(coord.u.dot(coord.w));
     auto vdw = abs(coord.v.dot(coord.w));
     assert(udv < EPS && udw < EPS && vdw < EPS);
-    cout << "    OK:" << coord.serialize() << endl;
+    cout << OK_FLAG << coord.serialize() << endl;
 
     auto ex = Point3d{1, 0, 0}; // 计算原坐标系在新坐标系下的坐标
     auto ey = Point3d{0, 1, 0};
@@ -30,5 +31,5 @@ void testRandomCoord3d() {
     auto pnew     = getNewCoordForPoint3d(test_vec, coord);
     auto pback    = getNewCoordForPoint3d(pnew, old_trans);
     assert(test_vec.serialize() == pback.serialize());
-    cout << "    OK:" << test_vec.serialize() << " " << pnew.serialize() << " " << pback.serialize() << endl;
+    cout << OK_FLAG << test_vec.serialize() << " " << pnew.serialize() << " " << pback.serialize() << endl;
 }

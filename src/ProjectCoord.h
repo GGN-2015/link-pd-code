@@ -2,8 +2,8 @@
 // 检查这些方向是否是合法的，如果有合法的返回一个即可，如果都不合法，那就报错，我们认为图片中有重合的点
 #pragma once
 
-#include "DataType.h"
-#include "RandomCoord3d.h"
+#include <DataType.h>
+#include <RandomCoord3d.h>
 
 extern const int MAX_TRY_CNT; // default = 10
 

@@ -1,10 +1,11 @@
 #include <cassert>
 #include <iostream>
 
-#include "ProjectCoord.h"
+#include <test/TestUtils.h>
+#include <ProjectCoord.h>
 using namespace std;
 
-void testProjectCoord() {
+void testProjectCoord() { /* 用于测试随机三维投影点方向算法 */
     Point3dList p3dl {
         {0, 0, 0},
         {0, 0, 1},
@@ -20,7 +21,7 @@ void testProjectCoord() {
     std::mt19937 gen(rd());
     auto pc = ProjectCoord(gen, p3dl);
     assert(pc.test());
-    cout << "    OK:" << pc.getOneCoord3d().serialize() << endl;
+    cout << OK_FLAG << pc.getOneCoord3d().serialize() << endl;
 
     Point3dList p3dfl { // 这是一个不合法的例子，无法得到合法投影方向
         {1.1, 1.2, 1.3},
@@ -28,5 +29,5 @@ void testProjectCoord() {
     };
     auto pcf = ProjectCoord(gen, p3dfl);
     assert(!pcf.test());
-    cout << "    OK: can not get coord" << endl;
+    cout << OK_FLAG << " can not get coord" << endl;
 }

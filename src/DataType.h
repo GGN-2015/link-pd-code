@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <cmath>
 #include <iomanip>
 #include <sstream>
@@ -14,6 +15,28 @@ static std::string doubleToString(double value, int precision=6) {
     out << std::fixed << std::setprecision(precision) << value;
     return out.str();
 }
+
+//包围盒
+struct AABB {
+    double minx, maxx, miny, maxy;
+
+    AABB merge(const AABB& rhs) const { // 合并包围盒
+        return {
+            std::min(minx, rhs.minx),
+            std::max(maxx, rhs.maxx),
+            std::min(miny, rhs.miny),
+            std::max(maxy, rhs.maxy)
+        };
+    }
+
+    std::string serialize() const {
+        return "("
+            + doubleToString(minx) + ","
+            + doubleToString(maxx) + ","
+            + doubleToString(miny) + ","
+            + doubleToString(maxy) + ")";
+    }
+};
 
 // 描述二维空间中的点集合
 struct Point2d {
@@ -59,6 +82,12 @@ struct Point2d {
             return {x / len, y / len};
         }
         return {0, 0};
+    }
+
+    AABB getAABB() const { // 获得一个点的包围盒
+        return {
+            x, x, y, y
+        };
     }
 };
 typedef std::vector<Point2d> Point2dList;
@@ -146,6 +175,10 @@ struct Segment2d {
     bool isSegment() const {
         return (pFrom - pTo).length() > EPS;
     }
+
+    AABB getAABB() const {
+        return pFrom.getAABB().merge(pTo.getAABB());
+    }
 };
 
 // 描述三维空间中的线段
@@ -172,3 +205,5 @@ struct Segment3d {
         };
     }
 };
+
+typedef std::vector<Segment2d> Segment2dList;

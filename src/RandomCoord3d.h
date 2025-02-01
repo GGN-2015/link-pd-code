@@ -3,7 +3,7 @@
 #pragma once
 
 #include <random>
-#include "DataType.h"
+#include <DataType.h>
 
 // 生成随机向量
 Point3d randomVector(std::mt19937& gen);

@@ -5,7 +5,7 @@
 #include <cmath>
 #include <cstdio>
 
-#include "NearestPoint.h"
+#include <NearestPoint.h>
 using namespace std;
 
 double NearestPoint::getMinDis() const {

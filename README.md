@@ -6,7 +6,6 @@
 ## 使用方式
 
 ```bash
-cd src
 make all
 ./link-pd-code.out < 3d_coord_file.txt > pd_code.txt
 ```
