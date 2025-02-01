@@ -1,3 +1,5 @@
+// 用于生成随机的坐标系
+// 并计算换坐标系后点的坐标
 #pragma once
 
 #include <random>

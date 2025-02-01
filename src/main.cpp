@@ -1,11 +1,16 @@
 #include <cstdio>
+#include "TestAll.h"
 using namespace std;
 
-#ifndef TEST
-
 int main() {
+
+#ifdef TEST
+    testAll();
+
+#else
     printf("hello world!\n");
-    return 0;
-}
 
 #endif
+
+    return 0;
+}

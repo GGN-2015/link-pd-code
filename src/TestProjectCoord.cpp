@@ -4,8 +4,8 @@
 #include "ProjectCoord.h"
 using namespace std;
 
-int main() {
-    cout << "-DTEST_PROJECT_COORD -DTEST" << endl;
+void testProjectCoord() {
+    cout << "testProjectCoord" << endl;
     Point3dList p3dl {
         {0, 0, 0},
         {0, 0, 1},
@@ -21,7 +21,7 @@ int main() {
     std::mt19937 gen(rd());
     auto pc = ProjectCoord(gen, p3dl);
     assert(pc.test());
-    cout << "OK:" << pc.getOneCoord3d().serialize() << endl;
+    cout << "    OK:" << pc.getOneCoord3d().serialize() << endl;
 
     Point3dList p3dfl { // 这是一个不合法的例子，无法得到合法投影方向
         {1.1, 1.2, 1.3},
@@ -29,6 +29,5 @@ int main() {
     };
     auto pcf = ProjectCoord(gen, p3dfl);
     assert(!pcf.test());
-    cout << "OK: can not get coord" << endl;
-    return 0;
+    cout << "    OK: can not get coord" << endl;
 }

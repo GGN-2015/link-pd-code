@@ -3,13 +3,11 @@
 #include "NearestPoint.h"
 #include "DataType.h"
 
-#ifdef TEST_NEAREST_POINT
-
 #include <cassert>
 using namespace std;
 
-int main() {
-    cout << "-DTEST_NEAREST_POINT -DTEST\n";
+void testNearestPoint() {
+    cout << "testNearestPoint" << endl;
     Point2dList p2dl {
         {1, 1},
         {1, 9},
@@ -20,8 +18,5 @@ int main() {
     auto ans = NearestPoint(p2dl).getMinDis();
     auto s = doubleToString(ans); // 检查答案
     assert(s == "1.414214");
-    cout << "OK:" << s << endl;
-    return 0;
+    cout << "    OK:" << s << endl;
 }
-
-#endif

@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-static const double EPS = 1e-7;
+static const double EPS = 1e-5;
 
 // 保留六位小数
 static std::string doubleToString(double value, int precision=6) { 
@@ -20,6 +20,45 @@ struct Point2d {
     double x, y;
     inline std::string serialize() const {
         return "(" + doubleToString(x) + "," + doubleToString(y) + ")";
+    }
+
+    // 向量加法
+    Point2d operator+(const Point2d& other) const {
+        return {x + other.x, y + other.y};
+    }
+
+    // 向量减法
+    Point2d operator-(const Point2d& other) const {
+        return {x - other.x, y - other.y};
+    }
+
+    // 向量数乘
+    Point2d operator*(double scalar) const {
+        return {x * scalar, y * scalar};
+    }
+
+    // 向量点积
+    double dot(const Point2d& other) const {
+        return x * other.x + y * other.y;
+    }
+
+    // 向量叉积
+    double cross(const Point2d& other) const {
+        return x * other.y - y * other.x;
+    }
+
+    // 向量模长
+    double length() const {
+        return std::sqrt(x * x + y * y);
+    }
+
+    // 向量归一化
+    Point2d normalize() const {
+        double len = length();
+        if (len > 0) {
+            return {x / len, y / len};
+        }
+        return {0, 0};
     }
 };
 typedef std::vector<Point2d> Point2dList;
@@ -90,6 +129,25 @@ struct Coord3d {
     }
 };
 
+// 描述二维空间中的线段
+struct Segment2d {
+    Point2d pFrom, pTo;
+    int component_id, segment_id;
+
+    inline std::string serialize() const {
+        return "("
+            + pFrom.serialize() + ","
+            + pTo.serialize() + ","
+            + std::to_string(component_id) + ","
+            + std::to_string(segment_id) + ")";
+    }
+
+    // 线段的两个端点不重合
+    bool isSegment() const {
+        return (pFrom - pTo).length() > EPS;
+    }
+};
+
 // 描述三维空间中的线段
 struct Segment3d {
     Point3d pFrom, pTo;
@@ -103,5 +161,14 @@ struct Segment3d {
             + pTo.serialize() + ","
             + std::to_string(component_id) + ","
             + std::to_string(segment_id) + ")";
+    }
+
+    inline Segment2d getSegment2d() const { // 抛弃 z 坐标
+        return {
+            pFrom.abandonZ(),
+            pTo.abandonZ(),
+            component_id,
+            segment_id
+        };
     }
 };
