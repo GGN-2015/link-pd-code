@@ -1,4 +1,5 @@
 all:
+	python3 genTestAll.py
 	g++ -DTEST *.cpp -o ./link-pd-code.out
 
 clean:

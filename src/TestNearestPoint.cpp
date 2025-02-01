@@ -6,8 +6,7 @@
 #include <cassert>
 using namespace std;
 
-void testNearestPoint() {
-    cout << "testNearestPoint" << endl;
+void testNearestPoint() { /* 用于测试平面最近点对算法 */
     Point2dList p2dl {
         {1, 1},
         {1, 9},

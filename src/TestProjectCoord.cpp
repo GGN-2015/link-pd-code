@@ -5,7 +5,6 @@
 using namespace std;
 
 void testProjectCoord() {
-    cout << "testProjectCoord" << endl;
     Point3dList p3dl {
         {0, 0, 0},
         {0, 0, 1},

@@ -4,7 +4,6 @@
 using namespace std;
 
 void testSegmentIntersect() {
-    cout << "testSegmentIntersect" << endl;
     {
         Point2d p1{1, 1}, q1{10, 1};
         Point2d p2{1, 2}, q2{10, 2};

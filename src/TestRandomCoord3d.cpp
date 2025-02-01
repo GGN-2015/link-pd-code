@@ -6,7 +6,6 @@ using namespace std;
 #include "RandomCoord3d.h"
 
 void testRandomCoord3d() {
-    cout << "testRandomCoord3d" << endl;
     std::random_device rd; // 随机数生成器
     std::mt19937 gen(rd());
 
