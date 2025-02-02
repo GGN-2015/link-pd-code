@@ -8,6 +8,14 @@ SegmentKdTree::SegmentKdTree(const Segment2dList& s2dl) {
     root = build(0, s2dl.size() - 1);
 }
 
+std::string SegmentKdTree::serialize() const {
+    if(root == nullptr) {
+        return "NULL";
+    }else {
+        return root -> serialize();
+    }
+}
+
 bool cmpx(Segment2d s1, Segment2d s2) {
     auto mid1 = (s1.pFrom + s1.pTo)*0.5;
     auto mid2 = (s2.pFrom + s2.pTo)*0.5;
@@ -39,7 +47,7 @@ KdTreeNode* SegmentKdTree::build(int l, int r, int depth) { // Nlog^2N （实际
 
         int mid = (l + r) >> 1; // 左右分拣
         newNode -> ch[0] = build(l,   mid, depth + 1); // 递归
-        newNode -> ch[0] = build(mid+1, r, depth + 1);
+        newNode -> ch[1] = build(mid+1, r, depth + 1);
     }
     return newNode;
 }

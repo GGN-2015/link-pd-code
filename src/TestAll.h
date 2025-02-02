@@ -10,6 +10,7 @@ void testNearestPoint();
 void testProjectCoord();
 void testRandomCoord3d();
 void testSegmentIntersect();
+void testSegmentKdTree();
 
 static void testAll() {
     std::cout << "testDataType" << std::endl; testDataType();
@@ -17,4 +18,5 @@ static void testAll() {
     std::cout << "testProjectCoord" << std::endl; testProjectCoord();
     std::cout << "testRandomCoord3d" << std::endl; testRandomCoord3d();
     std::cout << "testSegmentIntersect" << std::endl; testSegmentIntersect();
+    std::cout << "testSegmentKdTree" << std::endl; testSegmentKdTree();
 }

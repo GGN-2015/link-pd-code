@@ -12,6 +12,7 @@ struct KdTreeNode {
     std::string serialize() const {
         std::string ans = "(";
         for(int i = 0; i <= 1; i += 1) {
+            ans += "ch" + std::to_string(i) + ":";
             if(ch[i]) {
                 ans += ch[i] -> serialize();
             }else {
@@ -19,7 +20,9 @@ struct KdTreeNode {
             }
             ans += ",";
         }
+        ans += "aabb:";
         ans += aabb.serialize() + ",";
+        ans += "s2d:";
         if(s2d) {
             ans += s2d -> serialize();
         }else {
@@ -43,6 +46,8 @@ public:
         getAllIntersect(const Segment2d& s2d) const; // 给定一个线段，求所有线段与已知线段的交点位置
                                                      // 返回的类型是（component id, segment id, rate）
                                                      // 计算时需要注意跳过同一根线段以及相邻的线段
+
+    std::string serialize() const;
 private:
     KdTreeNode* build(int l, int r, int depth=0);
     Segment2dList s2dl;
