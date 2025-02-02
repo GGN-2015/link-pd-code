@@ -29,15 +29,22 @@ struct KdTreeNode {
     }
 };
 
+struct IntersectionRecord {
+    int component_id;
+    int segment_id;
+    double rate;
+};
+
 class SegmentKdTree {
 public:
     SegmentKdTree(const Segment2dList& s2dl);
 
-    std::vector<std::tuple<int, int, double>> 
+    std::vector<IntersectionRecord> 
         getAllIntersect(const Segment2d& s2d) const; // 给定一个线段，求所有线段与已知线段的交点位置
-                                                     // 返回的类型是（link id, segment id, rate）
+                                                     // 返回的类型是（component id, segment id, rate）
                                                      // 计算时需要注意跳过同一根线段以及相邻的线段
 private:
-    KdTreeNode* build(const Segment2dList& s2dl, int depth=0);
+    KdTreeNode* build(int l, int r, int depth=0);
+    Segment2dList s2dl;
     KdTreeNode* root;
 };
