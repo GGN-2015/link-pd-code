@@ -45,4 +45,13 @@ void testSegmentIntersect() { /* 用于测试线段求交的正确性 */
         assert(abs(t2 - 2.0/3) < EPS);
         cout << OK_FLAG << s1.serialize() << s2.serialize() << "(" << t1 << "," << t2 << ")" << endl;
     }
+    {
+        Segment2d s3{{3, 5}, {5, 7}, 1, 0};
+        Segment2d s4{{5, 7}, {7, 9}, 1, 1};
+
+        auto si = SegmentInteresect(s3, s4);
+        assert(si.getLinkedDetected());
+        assert(!si.exist());
+        cout << OK_FLAG << "linkedDetected" << endl;
+    }
 }
