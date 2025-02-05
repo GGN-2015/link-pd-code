@@ -1,7 +1,7 @@
 #include <cassert>
 #include <iostream>
 #include <test/TestUtils.h>
-#include <SegmentInteresect.h>
+#include <SegmentIntersect.h>
 using namespace std;
 
 void testSegmentIntersect() { /* 用于测试线段求交的正确性 */

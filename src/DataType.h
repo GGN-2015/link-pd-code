@@ -36,6 +36,14 @@ struct AABB {
             + doubleToString(miny) + ","
             + doubleToString(maxy) + ")";
     }
+
+    bool unlap(const AABB& rhs) const { // 包围盒不重叠的情况
+        return 
+            minx > rhs.maxx + EPS ||
+            maxx < rhs.minx - EPS ||
+            miny > rhs.maxy + EPS ||
+            maxy < rhs.miny - EPS;
+    }
 };
 
 // 描述二维空间中的点集合

@@ -1,11 +1,19 @@
 #include <algorithm>
 #include <cassert>
 #include <SegmentKdTree.h>
+#include <SegmentIntersect.h>
 
 SegmentKdTree::SegmentKdTree(const Segment2dList& s2dl) {
     assert(s2dl.size() >= 1);
     this -> s2dl = s2dl;
     root = build(0, s2dl.size() - 1);
+}
+
+SegmentKdTree::~SegmentKdTree() { // 释放所有内存空间
+    if(root != nullptr)
+        root -> free();
+    delete root;
+    root = nullptr;
 }
 
 std::string SegmentKdTree::serialize() const {
@@ -39,7 +47,7 @@ KdTreeNode* SegmentKdTree::build(int l, int r, int depth) { // Nlog^2N （实际
 
     if(l == r) { // 叶子节点
         newNode -> ch[0] = newNode -> ch[1] = nullptr;
-        newNode -> s2d   = new Segment2d(s2dl[l]);
+        newNode -> s2d   = new Segment2d(s2dl[l]); // 注意，此处我们使用了 new 拷贝了节点信息
     }else {
         newNode -> s2d = nullptr;
         auto cmp = (depth & 1 ? cmpy : cmpx);
@@ -50,4 +58,47 @@ KdTreeNode* SegmentKdTree::build(int l, int r, int depth) { // Nlog^2N （实际
         newNode -> ch[1] = build(mid+1, r, depth + 1);
     }
     return newNode;
+}
+
+// 计算所有可能的线段交点
+std::vector<IntersectionRecord> SegmentKdTree::getAllIntersect(const Segment2d& s2d) const {
+    auto ans = std::vector<IntersectionRecord>{};
+    getAllIntersectIn(ans, root, s2d);
+    return ans;
+}
+
+// 求两个线段的交点
+void SegmentKdTree::getIntersectForS2d(std::vector<IntersectionRecord>& ans, const Segment2d& s2d_a, const Segment2d& s2d_b) const {
+    auto si = SegmentInteresect(s2d_a, s2d_b);
+    if(!si.exist()) { // 交点不存在
+        return;
+    }
+    double t1, t2; // 求交点，得到交点位置以及参数
+    Point2d pt;
+    si.getIntersect(t1, t2, pt);
+    auto new_crs = IntersectionRecord{
+        s2d_a.component_id,
+        s2d_a.segment_id,
+        t1
+    };
+    ans.push_back(new_crs); // 把新的交点追加到列表中
+}
+
+// 获得某个节点中的所有交点
+void SegmentKdTree::getAllIntersectIn(std::vector<IntersectionRecord>& ans, KdTreeNode* root, const Segment2d& s2d) const {
+    if(root == nullptr) { // 空节点
+        return;
+    }
+    if(root -> s2d != nullptr) { // 叶子节点
+        getIntersectForS2d(ans, *(root -> s2d), s2d); // 两个线段求交点的情况
+        return;
+    }
+    if(root -> aabb.unlap(s2d.getAABB())) { // 处理没有重叠的情况
+        return;
+    }
+    for(int i = 0; i <= 1; i += 1) {
+        assert(root -> ch[i] != nullptr); // 由于前面已经判断了叶子节点的情况，所以这里一定是非叶子节点
+        getAllIntersectIn(ans, root -> ch[i], s2d);
+    }
+    return;
 }
