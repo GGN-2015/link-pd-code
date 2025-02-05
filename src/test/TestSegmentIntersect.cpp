@@ -46,12 +46,25 @@ void testSegmentIntersect() { /* 用于测试线段求交的正确性 */
         cout << OK_FLAG << s1.serialize() << s2.serialize() << "(" << t1 << "," << t2 << ")" << endl;
     }
     {
-        Segment2d s3{{3, 5}, {5, 7}, 1, 0};
-        Segment2d s4{{5, 7}, {7, 9}, 1, 1};
+        Segment2d s1{{3, 5}, {5, 7}, 1, 0};
+        Segment2d s2{{5, 7}, {7, 9}, 1, 1};
 
-        auto si = SegmentInteresect(s3, s4);
+        auto si = SegmentInteresect(s1, s2);
         assert(si.getLinkedDetected());
         assert(!si.exist());
-        cout << OK_FLAG << "linkedDetected" << endl;
+        cout << OK_FLAG << "linkedDetected " << s1.serialize() << s2.serialize() << endl;
+    }
+    {
+        Segment2d s1{{3, 5}, {5, 7}, 1, 0};
+        Segment2d s2{{1, 3}, {7, 9}, 1, 1};
+
+        auto si = SegmentInteresect(s1, s2);
+        assert(si.exist());
+        double t1, t2; Point2d pt;
+        si.getIntersect(t1, t2, pt);
+
+        assert(abs(t1 - 0.5) < EPS && abs(t2 - 0.5) < EPS);
+        assert(pt.serialize() == "(4.000000,6.000000)");
+        cout << OK_FLAG << s1.serialize() << s2.serialize() << endl;
     }
 }

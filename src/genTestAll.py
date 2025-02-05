@@ -34,7 +34,7 @@ def get_content(func_list):
 #pragma once\n#include <iostream>\n"""
 
     void_func = "".join(["void test%s();\n" % file for file in func_list]) 
-    call_func = "".join(["    std::cout << \"test%s\" << std::endl; test%s();\n" % (func, func) for func in func_list])
+    call_func = "".join(["    std::cout << \"\\033[1;33mtest%s\\033[0m\" << std::endl; test%s();\n" % (func, func) for func in func_list])
     return "%s\n%s\nstatic void testAll() {\n%s}\n" % (head, void_func, call_func)
 
 if __name__ == "__main__":
