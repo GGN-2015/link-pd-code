@@ -59,8 +59,24 @@ struct IntersectionRecord {
     }
 };
 
+// 检测类 A 是否有 serialize 方法
+template <typename T>
+class has_serialize {
+private:
+    // 使用一个类型来模拟成员函数的存在
+    template <typename U>
+    static auto test(int) -> decltype(std::declval<U>().serialize(), std::true_type());
+
+    template <typename U>
+    static std::false_type test(...);
+
+public:
+    static constexpr bool value = decltype(test<T>(0))::value;
+};
+
 template<typename _T> // 对列表进行序列化
 std::string Serialize(std::vector<_T> arr) {
+    static_assert(has_serialize<_T>::value, "Error: The class must have a serialize method."); // 检查是否是合法的可序列化类型
     std::string ans = "[";
     bool first = true;
     for(const auto& u: arr) {

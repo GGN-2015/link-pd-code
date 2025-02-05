@@ -5,6 +5,13 @@
 using namespace std;
 
 void testSegmentKdTree() { /* 检测建树的基本功能 */
+    { // 测试 has_serialize 类是否能正常工作
+        auto v = has_serialize<int>::value;
+        assert(v == false);
+        auto u = has_serialize<SegmentKdTree>::value;
+        assert(u == true);
+        cout << OK_FLAG << "has_serialize" << endl;
+    }
     {
         SegmentKdTree skdt({
             {{0, 0}, {0, 1}, 0, 0},

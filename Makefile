@@ -2,6 +2,8 @@
 SRCS := $(shell find . -name '*.cpp')
 # 将 .cpp 扩展名替换为 .o
 OBJS := $(SRCS:.cpp=.o)
+# 额外依赖
+DEPS := TestAll.h
 
 # 编译器和编译选项
 CXX := g++
@@ -14,12 +16,12 @@ TestAll.h: $(SRCS)
 	python3 src/genTestAll.py
 
 # 生成 link-pd-code.out 的规则
-link-pd-code.out: $(OBJS) TestAll.h
+link-pd-code.out: $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS)
 
 # 编译每个 .cpp 文件为 .o 文件的规则
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $< 
+%.o: %.cpp $(DEPS)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # 清理生成的 .o 文件和 a.out
 clean:
