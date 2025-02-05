@@ -64,6 +64,16 @@ KdTreeNode* SegmentKdTree::build(int l, int r, int depth) { // Nlog^2N （实际
 std::vector<IntersectionRecord> SegmentKdTree::getAllIntersect(const Segment2d& s2d) const {
     auto ans = std::vector<IntersectionRecord>{};
     getAllIntersectIn(ans, root, s2d);
+    sort(ans.begin(), ans.end(), [](const IntersectionRecord& ir1, const IntersectionRecord& ir2){ // 按照一定顺序排序，以方便测试
+        if(ir1.component_id != ir2.component_id) {
+            return ir1.component_id < ir2.component_id;
+        }
+        if(ir1.segment_id != ir2.segment_id) {
+            return ir1.segment_id < ir2.segment_id;
+        }
+        assert(abs(ir1.rate - ir2.rate) > EPS);
+        return ir1.rate < ir2.rate;
+    });
     return ans;
 }
 

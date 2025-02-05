@@ -41,4 +41,33 @@ void testSegmentKdTree() { /* 检测建树的基本功能 */
         assert(crs_s == "[(0,0,0.500000),(0,2,0.772727)]");
         cout << OK_FLAG << crs_s << endl;
     }
+    {
+        SegmentKdTree skdt({
+            {{0, 0}, {0, 1}, 1, 0},
+            {{0, 1}, {0.5, 0}, 1, 1},
+            {{0.5, 0}, {1, 1}, 1, 2},
+            {{1, 1}, {1, 0}, 1, 3},
+            {{1, 0}, {0, 0}, 1, 4},
+        });
+
+        Segment2d s2d1 {
+            {-0.5, 0}, {1.5, 1}, 2, 0
+        };
+
+        auto cs1 = skdt.getAllIntersect(s2d1);
+        assert(cs1.size() == 4);
+        auto crs_s1 = Serialize(cs1);
+        assert(crs_s1 == "[(1,0,0.250000),(1,1,0.600000),(1,2,0.666667),(1,3,0.250000)]");
+        cout << OK_FLAG << crs_s1 << endl;
+
+        Segment2d s2d2 {
+            {0.5, 1}, {1.5, 0}, 3, 0
+        };
+
+        auto cs2 = skdt.getAllIntersect(s2d2);
+        assert(cs2.size() == 2);
+        auto crs_s2 = Serialize(cs2);
+        assert(crs_s2 == "[(1,2,0.666667),(1,3,0.500000)]");
+        cout << OK_FLAG << crs_s2 << endl;
+    }
 }
