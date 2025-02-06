@@ -1,7 +1,7 @@
 // 用于计算两个线段是否有交点以及线段的交点是什么
 #pragma once
 
-#include "DataType.h"
+#include <DataType.h>
 
 class SegmentInteresect {
 public:

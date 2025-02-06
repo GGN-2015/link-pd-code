@@ -19,4 +19,30 @@ void testDataType() { /* 用于测试数据类型的序列化是否正确 */
         assert(s == "(0.000000,5.000000,2.000000,3.000000)");
         cout << OK_FLAG << s << endl;
     }
+    {
+        Segment3d s3d {
+            {1.5, 2.0, 1.2},
+            {3.5, 1.1, 4.3},
+            1,
+            8
+        };
+        auto pFrom = s3d.step(0.0);
+        auto pTo   = s3d.step(1.0);
+        auto pMove = s3d.step(2.0);
+        assert(pFrom.serialize() == s3d.pFrom.serialize());
+        assert(pTo.serialize()   == s3d.pTo.serialize());
+        assert(pMove.serialize() == "(5.500000,0.200000,7.400000)");
+        cout << OK_FLAG << s3d.serialize() << endl;
+    }
+    {
+        Point2d p2d_1 { 1,  1};
+        Point2d p2d_2 {-1,  1};
+        Point2d p2d_3 {-1, -1};
+        Point2d p2d_4 { 1, -1};
+        assert(doubleToString(p2d_1.calculatePolarAngle()) == doubleToString(45.0 / 180.0 * PI));
+        assert(doubleToString(p2d_2.calculatePolarAngle()) == doubleToString(135.0 / 180.0 * PI));
+        assert(doubleToString(p2d_3.calculatePolarAngle()) == doubleToString(225.0 / 180.0 * PI));
+        assert(doubleToString(p2d_4.calculatePolarAngle()) == doubleToString(315.0 / 180.0 * PI));
+        cout << OK_FLAG << "calculatePolarAngle" << endl;
+    }
 }

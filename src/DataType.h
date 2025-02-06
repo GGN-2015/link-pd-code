@@ -8,6 +8,7 @@
 #include <vector>
 
 static const double EPS = 1e-5;
+const double PI = std::acos(-1); // 定义 π 的值
 
 // 保留六位小数
 static std::string doubleToString(double value, int precision=6) { 
@@ -96,6 +97,16 @@ struct Point2d {
         return {
             x, x, y, y
         };
+    }
+
+
+    // 计算极角的函数
+    double calculatePolarAngle() {
+        double angle = std::atan2(y, x); // 使用 atan2 函数计算极角，结果范围是 -π 到 π
+        if (angle < 0) { // 如果角度为负，将其转换到 0 到 2π 的范围
+            angle += 2 * PI;
+        }
+        return angle;
     }
 };
 typedef std::vector<Point2d> Point2dList;
@@ -187,6 +198,10 @@ struct Segment2d {
     AABB getAABB() const {
         return pFrom.getAABB().merge(pTo.getAABB());
     }
+
+    inline Point2d step(double rate) const { // 在线段上找一个点
+        return pFrom + (pTo - pFrom) * rate;
+    }
 };
 
 // 描述三维空间中的线段
@@ -212,6 +227,13 @@ struct Segment3d {
             segment_id
         };
     }
+
+    inline Point3d step(double rate) const { // 在线段上找一个点
+        return pFrom + (pTo - pFrom) * rate;
+    }
 };
 
 typedef std::vector<Segment2d> Segment2dList;
+
+// 交叉点编码
+typedef std::tuple<std::string, std::string, std::string, std::string> CrossingCode;

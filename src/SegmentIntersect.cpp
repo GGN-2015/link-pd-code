@@ -90,6 +90,8 @@ void SegmentInteresect::init(const Segment2d& s1, const Segment2d& s2) {
             existIntersect = false;
             linkedDetected = true;
         }
+
+        //! 现在线段区间相交的情况我们认为是合法相交，但是这会导致未来的交叉点编码算法报错
     }
 }
 
