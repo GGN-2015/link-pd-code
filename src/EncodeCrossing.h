@@ -14,7 +14,9 @@ class EncodeCrossing {
 public:
     EncodeCrossing(const Segment3d& s3d_a, const Segment3d& s3d_b, std::string arc_a_in, std::string arc_a_out, std::string arc_b_in, std::string arc_b_out);
     CrossingCode getCode() const;
+    std::string getErr() const;
 
 private:
     CrossingCode code;
+    std::string err; // 错误信息
 };

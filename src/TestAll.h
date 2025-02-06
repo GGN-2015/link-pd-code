@@ -6,6 +6,7 @@
 #include <iostream>
 
 void testDataType();
+void testEncodeCrossing();
 void testNearestPoint();
 void testProjectCoord();
 void testRandomCoord3d();
@@ -14,6 +15,7 @@ void testSegmentKdTree();
 
 static void testAll() {
     std::cout << "\033[1;33mtestDataType\033[0m" << std::endl; testDataType();
+    std::cout << "\033[1;33mtestEncodeCrossing\033[0m" << std::endl; testEncodeCrossing();
     std::cout << "\033[1;33mtestNearestPoint\033[0m" << std::endl; testNearestPoint();
     std::cout << "\033[1;33mtestProjectCoord\033[0m" << std::endl; testProjectCoord();
     std::cout << "\033[1;33mtestRandomCoord3d\033[0m" << std::endl; testRandomCoord3d();

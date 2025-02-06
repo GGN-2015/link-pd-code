@@ -14,7 +14,8 @@ const double PI = std::acos(-1); // 定义 π 的值
 static std::string doubleToString(double value, int precision=6) { 
     std::ostringstream out;
     out << std::fixed << std::setprecision(precision) << value;
-    return out.str();
+    std::string ans = out.str();
+    return ans;
 }
 
 //包围盒
@@ -109,6 +110,12 @@ struct Point2d {
         return angle;
     }
 };
+bool operator==(const Point2d& p1, const Point2d& p2) {
+    return abs(p1.x - p2.x) < EPS && abs(p1.y - p2.y) < EPS;
+}
+bool operator!=(const Point2d& p1, const Point2d& p2) {
+    return !(p1 == p2);
+}
 typedef std::vector<Point2d> Point2dList;
 
 // 描述三维空间中的点
@@ -236,4 +243,15 @@ struct Segment3d {
 typedef std::vector<Segment2d> Segment2dList;
 
 // 交叉点编码
-typedef std::tuple<std::string, std::string, std::string, std::string> CrossingCode;
+struct CrossingCode {
+    std::string arc_name[4];
+
+    std::string serialize() const {
+        std::string ans = "(" + arc_name[0];
+        for(int i = 1; i < 4; i += 1) {
+            ans += "," + arc_name[i];
+        }
+        ans += ")";
+        return ans;
+    }
+};
