@@ -110,10 +110,10 @@ struct Point2d {
         return angle;
     }
 };
-bool operator==(const Point2d& p1, const Point2d& p2) {
+inline bool operator==(const Point2d& p1, const Point2d& p2) {
     return abs(p1.x - p2.x) < EPS && abs(p1.y - p2.y) < EPS;
 }
-bool operator!=(const Point2d& p1, const Point2d& p2) {
+inline bool operator!=(const Point2d& p1, const Point2d& p2) {
     return !(p1 == p2);
 }
 typedef std::vector<Point2d> Point2dList;
