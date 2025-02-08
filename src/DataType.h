@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-static const double EPS = 1e-5;
+static const double EPS = 1e-6;
 const double PI = std::acos(-1); // 定义 π 的值
 
 inline double checkSame(double d1, double d2) { // 检查两个浮点数是否相同
@@ -264,7 +264,7 @@ struct Segment3d {
             + std::to_string(segment_id) + ")";
     }
 
-    inline Segment2d getSegment2d() const { // 抛弃 z 坐标
+    inline Segment2d abandonZ() const { // 抛弃 z 坐标
         return {
             pFrom.abandonZ(),
             pTo.abandonZ(),
@@ -279,6 +279,7 @@ struct Segment3d {
 };
 
 typedef std::vector<Segment2d> Segment2dList;
+typedef std::vector<Segment3d> Segment3dList;
 
 // 交叉点编码
 struct CrossingCode {

@@ -107,3 +107,35 @@ std::string LinkInput::serialize() const {
     }
     return ans + "]";
 }
+
+Segment3dList LinkInput::getAllSegments3d() const {
+    Segment3dList ans {};
+    for(int i = 0; i < component_cnt; i += 1) {
+        for(int j = 0; j < getComponentLength(i); j += 1) {
+            ans.push_back(getSegment(i, j));
+        }
+    }
+    return ans;
+}
+
+Segment2dList LinkInput::getAllSegments2d() const {
+    Segment2dList ans {};
+    for(const auto& s3d: getAllSegments3d()) {
+        ans.push_back(s3d.abandonZ());
+    }
+    return ans;
+}
+
+std::vector<IntersectionRecord> LinkInput::getAllIntersect() const {
+    std::vector<IntersectionRecord> ans;
+    auto s2dl = getAllSegments2d();
+    auto skdt = SegmentKdTree(s2dl);
+    for(const auto& s2d: s2dl) {
+        auto vir = skdt.getAllIntersect(s2d);
+        for(const auto& ir: vir) {
+            ans.push_back(ir);
+        }
+    }
+    sort(ans.begin(), ans.end(), IrCmp);
+    return ans; // 返回所有出现的交点
+}

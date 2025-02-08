@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <DataType.h>
 #include <ProjectCoord.h>
+#include <SegmentKdTree.h>
 
 class LinkInput {
 public:
@@ -20,6 +21,10 @@ public:
     void getRandomProject(LinkInput* li); // 获取随机投影，存入一个指定 LinkInput
 
     std::string serialize() const;
+    std::vector<IntersectionRecord> getAllIntersect() const;
+
+    Segment3dList getAllSegments3d() const;
+    Segment2dList getAllSegments2d() const;
 
 private:
     Point3dList getPoint3dList() const; // 获得所有点构成的 List 用于随机投影

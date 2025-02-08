@@ -16,8 +16,8 @@ std::string EncodeCrossing::getErr() const {
 }
 
 EncodeCrossing::EncodeCrossing(const Segment3d& s3d_a, const Segment3d& s3d_b, std::string arc_a_in, std::string arc_a_out, std::string arc_b_in, std::string arc_b_out) {
-    auto s2d_a = s3d_a.getSegment2d();
-    auto s2d_b = s3d_b.getSegment2d();
+    auto s2d_a = s3d_a.abandonZ();
+    auto s2d_b = s3d_b.abandonZ();
     auto si = SegmentInteresect(s2d_a, s2d_b);
     
     if(!si.exist()) { // 线段交点必须存在，才可以求交点编码

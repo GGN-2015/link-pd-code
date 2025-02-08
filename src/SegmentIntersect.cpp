@@ -80,6 +80,14 @@ void SegmentInteresect::init(const Segment2d& s1, const Segment2d& s2) {
     assert(s1.isSegment());
     assert(s2.isSegment());
 
+    if(
+        ((s1.pFrom - s2.pFrom).length() < 2 * EPS && (s1.pTo - s2.pTo  ).length() < 2 * EPS) ||
+        ((s1.pFrom - s2.pTo  ).length() < 2 * EPS && (s1.pTo - s2.pFrom).length() < 2 * EPS) 
+    ) {
+        existIntersect = false; // 我们认为重合的线段没有交点
+        return;
+    }
+
     existIntersect = findIntersection(s1.pFrom, s1.pTo, s2.pFrom, s2.pTo, pt);
     linkedDetected = false;
     if(existIntersect) {

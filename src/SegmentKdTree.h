@@ -2,6 +2,7 @@
 // 根节点在 x 方向上划分，每个树节点记录 AABB 用于剪枝
 #pragma once
 
+#include <cassert>
 #include <DataType.h>
 
 struct KdTreeNode {
@@ -9,7 +10,7 @@ struct KdTreeNode {
     AABB aabb;          // 所有 Point2d 的 AABB
     Segment2d* s2d;     // 非叶子节点取 nullptr 即可
 
-    std::string serialize() const {
+    inline std::string serialize() const {
         std::string ans = "(";
         for(int i = 0; i <= 1; i += 1) {
             ans += "ch" + std::to_string(i) + ":";
@@ -31,7 +32,7 @@ struct KdTreeNode {
         return ans + ")";
     }
 
-    void free() { // 释放所有内存空间
+    inline void free() { // 释放所有内存空间
         for(int i = 0; i <= 1; i += 1) {
             if(ch[i] != nullptr) {
                 ch[i] -> free();
@@ -51,12 +52,22 @@ struct IntersectionRecord {
     int segment_id;
     double rate;
 
-    std::string serialize() const {
+    inline std::string serialize() const {
         return "("
             + std::to_string(component_id) + ","
             + std::to_string(segment_id) + ","
             + doubleToString(rate) + ")";
     }
+};
+
+inline bool IrCmp(const IntersectionRecord& ir1, const IntersectionRecord& ir2) { // 按照一定顺序排序，以方便测试
+    if(ir1.component_id != ir2.component_id) {
+        return ir1.component_id < ir2.component_id;
+    }
+    if(ir1.segment_id != ir2.segment_id) {
+        return ir1.segment_id < ir2.segment_id;
+    }
+    return ir1.rate < ir2.rate;
 };
 
 class SegmentKdTree {
