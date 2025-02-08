@@ -26,7 +26,7 @@ void testLinkInput() {
         assert(nli.serialize() == "[[(0.000000,0.000000,0.000000),(0.162386,0.710695,0.684503),(0.705141,0.401673,-0.584325)],[(0.347011,0.444947,0.040071),(-0.245780,1.448921,0.014859),(1.460318,0.108394,0.125390)]]");
         cout << OK_FLAG << nli.serialize() << endl;
 
-        auto [vir, pir] = li.getAllIntersect();
+        auto [vir, pir] = li.getAllIntersect(); // pir 描述交叉点之间的配对关系
         assert(Serialize(pir) == "[2,3,0,1]");
         assert(Serialize(vir) == "[(0,1,0.400000),(0,1,0.600000),(1,0,0.333333),(1,2,0.666667)]");
         cout << OK_FLAG << Serialize(vir) << endl;

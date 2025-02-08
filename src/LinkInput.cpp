@@ -159,6 +159,19 @@ std::tuple<std::vector<IntersectionRecord>, std::vector<int>> LinkInput::getAllI
     for(int i = 0; i < (int)tool_vector.size(); i += 1) {
         pair_vector[tool_vector[i]] = tool_vector[i^1];
     }
-
+    for(int i = 0; i < (int)pair_vector.size(); i += 1) { // 检查配对是否合法
+        if(i < pair_vector[i]) {
+            auto j = pair_vector[i];
+            auto cid_1 = ans[i].component_id;
+            auto sid_1 = ans[i].segment_id;
+            auto rat_1 = ans[i].rate;
+            auto pt_1  = (this -> getSegment(cid_1, sid_1)).abandonZ().step(rat_1);
+            auto cid_2 = ans[j].component_id;
+            auto sid_2 = ans[j].segment_id;
+            auto rat_2 = ans[j].rate;
+            auto pt_2  = (this -> getSegment(cid_2, sid_2)).abandonZ().step(rat_2);
+            assert(pt_1 == pt_2);
+        }
+    }
     return make_tuple(ans, pair_vector); // 返回所有出现的交点以及配对情况
 }
