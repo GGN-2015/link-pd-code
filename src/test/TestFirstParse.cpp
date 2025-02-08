@@ -18,5 +18,9 @@ void testFirstParse() {
         auto fp = FirstParse(li);
         assert(Serialize(fp.getFirstParseCode()) == "[(c_c_000000#s_000001,c_c_000001#s_000001,c_c_000000#s_000000,c_c_000001#s_000000),(c_c_000001#s_000000,c_c_000000#s_000000,c_c_000001#s_000001,c_c_000000#s_000001)]");
         cout << OK_FLAG << Serialize(fp.getFirstParseCode()) << endl;
+
+        auto sp = fp.getSecondParseCode();
+        assert(Serialize(sp) == "[(2,4,1,3),(3,1,4,2)]");
+        cout << OK_FLAG << Serialize(sp) << endl;
     }
 }

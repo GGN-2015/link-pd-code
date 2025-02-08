@@ -1,5 +1,6 @@
 #include <FirstParse.h>
 #include <iostream>
+#include <set>
 using namespace std;
 
 FirstParse::FirstParse(LinkInput& link_input): link_input(link_input) {
@@ -46,5 +47,43 @@ std::vector<CrossingCode> FirstParse::getFirstParseCode() { // 计算一个节�
         }
     }
     sort(ans.begin(), ans.end());
+    return ans;
+}
+
+std::vector<CrossingCode> FirstParse::getSecondParseCode() {
+    auto first_parse_code = getFirstParseCode();
+    auto ans = std::vector<CrossingCode> {};
+
+    std::set<std::string> sort_set;
+    for(const auto& corssing: first_parse_code) {
+        for(const auto& arc: corssing.arc_name) {
+            sort_set.insert(arc);
+        }
+    }
+    std::map<std::string, int> sort_map;
+    int val_cnt = 0; // 当前使用了多少个编号
+    for(const auto& item: sort_set) { // 从 1 开始向上编号
+        sort_map[item] = ++ val_cnt;
+    }
+
+    for(const auto& crossing: first_parse_code) {
+        ans.push_back(CrossingCode{
+            std::to_string(sort_map[crossing.arc_name[0]]),
+            std::to_string(sort_map[crossing.arc_name[1]]),
+            std::to_string(sort_map[crossing.arc_name[2]]),
+            std::to_string(sort_map[crossing.arc_name[3]])
+        });
+    }
+
+    for(int i = 0; i < no_crossing_component_cnt; i += 1) { // 为每个无交点的连通分量增加一个交点
+        int vi = ++ val_cnt;
+        int vj = ++ val_cnt;
+        ans.push_back(CrossingCode{
+            std::to_string(vi),
+            std::to_string(vi),
+            std::to_string(vj),
+            std::to_string(vj)
+        });
+    }
     return ans;
 }

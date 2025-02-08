@@ -12,6 +12,7 @@ class FirstParse {
 public:
     FirstParse(LinkInput& link_input);
     std::vector<CrossingCode> getFirstParseCode();
+    std::vector<CrossingCode> getSecondParseCode();
 
 private:
     int component_cnt;
