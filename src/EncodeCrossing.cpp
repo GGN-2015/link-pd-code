@@ -2,6 +2,7 @@
 #include <iostream>
 #include <EncodeCrossing.h>
 #include <SegmentIntersect.h>
+using namespace std;
  
 struct SortItem {
     std::string arc_name;
@@ -15,7 +16,8 @@ std::string EncodeCrossing::getErr() const {
     return err;
 }
 
-EncodeCrossing::EncodeCrossing(const Segment3d& s3d_a, const Segment3d& s3d_b, std::string arc_a_in, std::string arc_a_out, std::string arc_b_in, std::string arc_b_out) {
+EncodeCrossing::EncodeCrossing(const Segment3d& s3d_a, const Segment3d& s3d_b, std::string arc_a_in, std::string arc_a_out, std::string arc_b_in, std::string arc_b_out):
+    s3d_a(s3d_a), s3d_b(s3d_b), arc_a_in(arc_a_in), arc_a_out(arc_a_out), arc_b_in(arc_b_in), arc_b_out(arc_b_out) {
     auto s2d_a = s3d_a.abandonZ();
     auto s2d_b = s3d_b.abandonZ();
     auto si = SegmentInteresect(s2d_a, s2d_b);
@@ -36,7 +38,7 @@ EncodeCrossing::EncodeCrossing(const Segment3d& s3d_a, const Segment3d& s3d_b, s
         err = "intersection error";
         return;
     }
-    
+
     if(abs(pt1.z - pt2.z) <= EPS) {        // 两个 z 坐标必须可区分才可以
         err = "segments meet in 3d space"; // 我们希望两个线段在二维空间中有交点但是在三维空间中没有交点
         return;

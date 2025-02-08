@@ -8,6 +8,7 @@
 void testArcSort();
 void testDataType();
 void testEncodeCrossing();
+void testFirstParse();
 void testLinkInput();
 void testNearestPoint();
 void testProjectCoord();
@@ -19,6 +20,7 @@ static void testAll() {
     std::cout << "\033[1;33mtestArcSort\033[0m" << std::endl; testArcSort();
     std::cout << "\033[1;33mtestDataType\033[0m" << std::endl; testDataType();
     std::cout << "\033[1;33mtestEncodeCrossing\033[0m" << std::endl; testEncodeCrossing();
+    std::cout << "\033[1;33mtestFirstParse\033[0m" << std::endl; testFirstParse();
     std::cout << "\033[1;33mtestLinkInput\033[0m" << std::endl; testLinkInput();
     std::cout << "\033[1;33mtestNearestPoint\033[0m" << std::endl; testNearestPoint();
     std::cout << "\033[1;33mtestProjectCoord\033[0m" << std::endl; testProjectCoord();

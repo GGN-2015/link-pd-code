@@ -9,6 +9,7 @@ typedef std::tuple<int, double> SegmentIdRatePair;
 
 class ArcSort {
 public:
+    ArcSort(){}
     ArcSort(std::string name, std::vector<SegmentIdRatePair> sidrp);
 
     std::string getBeforeName(SegmentIdRatePair pr) const; // 进入交叉点前的弧线名称

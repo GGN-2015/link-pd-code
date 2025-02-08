@@ -18,6 +18,19 @@ static std::string doubleToString(double value, int precision=6) {
     return ans;
 }
 
+struct IntersectionRecord { // 记录交点信息
+    int component_id;
+    int segment_id;
+    double rate;
+
+    inline std::string serialize() const {
+        return "("
+            + std::to_string(component_id) + ","
+            + std::to_string(segment_id) + ","
+            + doubleToString(rate) + ")";
+    }
+};
+
 inline double checkSame(double d1, double d2) { // 检查两个浮点数是否相同
     return abs(d1 - d2) < EPS;
 }
@@ -328,3 +341,12 @@ struct CrossingCode {
         return ans;
     }
 };
+
+inline bool operator<(const CrossingCode& cc1, const CrossingCode& cc2) { // 对编码进行比较大小
+    for(int i = 0; i < 4; i += 1) {
+        if(cc1.arc_name[i] != cc2.arc_name[i]) {
+            return cc1.arc_name[i] < cc2.arc_name[i];
+        }
+    }
+    return false; // 相等
+}

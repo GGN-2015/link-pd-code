@@ -47,19 +47,6 @@ struct KdTreeNode {
     }
 };
 
-struct IntersectionRecord {
-    int component_id;
-    int segment_id;
-    double rate;
-
-    inline std::string serialize() const {
-        return "("
-            + std::to_string(component_id) + ","
-            + std::to_string(segment_id) + ","
-            + doubleToString(rate) + ")";
-    }
-};
-
 inline bool IrCmp(const IntersectionRecord& ir1, const IntersectionRecord& ir2) { // 按照一定顺序排序，以方便测试
     if(ir1.component_id != ir2.component_id) {
         return ir1.component_id < ir2.component_id;

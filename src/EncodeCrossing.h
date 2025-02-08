@@ -16,7 +16,25 @@ public:
     CrossingCode getCode() const;
     std::string getErr() const;
 
+    inline std::string serialize() const {
+        std::string ans = "(";
+        ans += s3d_a.serialize() + ",";
+        ans += s3d_b.serialize() + ",";
+        ans += arc_a_in  + ",";
+        ans += arc_a_out + ",";
+        ans += arc_b_in  + ",";
+        ans += arc_b_out + ")";
+        return ans;
+    }
+
 private:
+    Segment3d s3d_a;
+    Segment3d s3d_b;
+    std::string arc_a_in;
+    std::string arc_a_out;
+    std::string arc_b_in;
+    std::string arc_b_out;
+
     CrossingCode code;
     std::string err; // 错误信息
 };
