@@ -5,6 +5,7 @@
 #pragma once
 #include <iostream>
 
+void testArcSort();
 void testDataType();
 void testEncodeCrossing();
 void testLinkInput();
@@ -15,6 +16,7 @@ void testSegmentIntersect();
 void testSegmentKdTree();
 
 static void testAll() {
+    std::cout << "\033[1;33mtestArcSort\033[0m" << std::endl; testArcSort();
     std::cout << "\033[1;33mtestDataType\033[0m" << std::endl; testDataType();
     std::cout << "\033[1;33mtestEncodeCrossing\033[0m" << std::endl; testEncodeCrossing();
     std::cout << "\033[1;33mtestLinkInput\033[0m" << std::endl; testLinkInput();

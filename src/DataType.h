@@ -10,6 +10,14 @@
 static const double EPS = 1e-6;
 const double PI = std::acos(-1); // 定义 π 的值
 
+// 保留六位小数
+static std::string doubleToString(double value, int precision=6) { 
+    std::ostringstream out;
+    out << std::fixed << std::setprecision(precision) << value;
+    std::string ans = out.str();
+    return ans;
+}
+
 inline double checkSame(double d1, double d2) { // 检查两个浮点数是否相同
     return abs(d1 - d2) < EPS;
 }
@@ -43,6 +51,21 @@ inline std::string Serialize(std::vector<int> arr) { // 对整数 vector 进行�
     return ans + "]";
 }
 
+inline std::string Serialize(std::vector<std::tuple<int, double>> arr) {
+    std::string ans = "[";
+    bool first = true;
+    for(const auto& node: arr) {
+        auto [u, v] = node;
+        if(first) {
+            first = false;
+        }else {
+            ans += ",";
+        }
+        ans += "(" + std::to_string(u) + "," + doubleToString(v) + ")";
+    }
+    return ans + "]";
+}
+
 template<typename _T> // 对列表进行序列化
 std::string Serialize(std::vector<_T> arr) {
     static_assert(has_serialize<_T>::value, "Error: The class must have a serialize method."); // 检查是否是合法的可序列化类型
@@ -57,14 +80,6 @@ std::string Serialize(std::vector<_T> arr) {
         ans += u.serialize();
     }
     return ans + "]";
-}
-
-// 保留六位小数
-static std::string doubleToString(double value, int precision=6) { 
-    std::ostringstream out;
-    out << std::fixed << std::setprecision(precision) << value;
-    std::string ans = out.str();
-    return ans;
 }
 
 //包围盒
