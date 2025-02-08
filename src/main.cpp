@@ -1,5 +1,5 @@
 #include <cstdio>
-#include "TestAll.h"
+#include <TestAll.h>
 using namespace std;
 
 int main() {

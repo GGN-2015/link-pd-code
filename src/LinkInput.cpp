@@ -1,0 +1,109 @@
+#include <cassert>
+#include <DataType.h>
+#include <LinkInput.h>
+
+LinkInput::LinkInput(std::mt19937& n_gen): 
+    component_cnt(0), components({}), all_point3d({}), gen(n_gen) {
+    // 初始化时候什么都不做
+    pc = nullptr;
+}
+
+LinkInput::~LinkInput() {
+    if(pc != nullptr) {
+        delete pc;
+    }
+}
+
+void LinkInput::input(FILE* fpin) {
+    assert(fpin != nullptr); // 检查文件可以读写
+    assert(pc == nullptr);    // 之前没有进行过 input 操作
+
+    fscanf(fpin, "%d", &component_cnt);
+    for(int i = 0; i < component_cnt; i += 1) { // 输入每一个连通分量
+        int point_cnt;
+        fscanf(fpin, "%d", &point_cnt); // 输入一个连通分量中的点数
+        assert(point_cnt >= 3);         // 要求每个连通分支至少有三个点 
+
+        Point3dList p3dl;
+        for(int j = 0; j < point_cnt; j += 1) {
+            Point3d p3d;
+            p3d.input(fpin);
+            p3dl.push_back(p3d);
+            all_point3d.push_back(p3d); // 记录全部点集合
+        }
+        components.push_back(p3dl); // 记录每一个序列
+    }
+    pc = new ProjectCoord(gen, all_point3d); // 先随机生成一个投影方向
+}
+
+int LinkInput::getComponetCnt() const {
+    return component_cnt;
+}
+
+int LinkInput::getComponentLength(int component_id) const {
+    assert(0 <= component_id && component_id < getComponetCnt());
+    return components[component_id].size();
+}
+
+Segment3d LinkInput::getSegment(int component_id, int segment_id) const {
+    assert(0 <= component_id && component_id < getComponetCnt());
+    assert(0 <= segment_id   && segment_id   < getComponentLength(component_id));
+
+    if(segment_id == getComponentLength(component_id) - 1) { // 最后一个线段
+        return Segment3d {
+            components[component_id][segment_id],
+            components[component_id][0],
+            component_id,
+            segment_id
+        };
+    }else {
+        return Segment3d {
+            components[component_id][segment_id],
+            components[component_id][segment_id + 1],
+            component_id,
+            segment_id
+        };
+    }
+}
+
+Point3dList LinkInput::getPoint3dList() const { // 计算全部点集合
+    return all_point3d;
+}
+
+bool LinkInput::checkRandomProject() const {
+    assert(pc != nullptr);
+    return pc -> test();
+}
+
+void LinkInput::getRandomProject(LinkInput* li) { // 获取一个随机投影方式
+    assert(checkRandomProject());
+    li -> component_cnt = component_cnt;
+    li -> components    = components;
+    li -> all_point3d   = all_point3d;
+    li -> pc            = new ProjectCoord(gen, all_point3d); // 注意这里是新的 pc
+
+    auto coord3d = pc ->getOneCoord3d(); // 注意这里用的是老的 pc
+    for(auto& component: li -> components) {
+        for(auto& p3d: component) {
+            p3d = getNewCoordForPoint3d(p3d, coord3d);
+        }
+    }
+
+    for(auto& p3d: li -> all_point3d) {
+        p3d = getNewCoordForPoint3d(p3d, coord3d);
+    }
+}
+
+std::string LinkInput::serialize() const {
+    std::string ans = "[";
+    bool first = true;
+    for(const auto& component: components) {
+        if(first) {
+            first = false;
+        }else {
+            ans += ",";
+        }
+        ans += Serialize(component);
+    }
+    return ans + "]";
+}
