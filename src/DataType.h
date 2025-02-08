@@ -29,6 +29,20 @@ public:
     static constexpr bool value = decltype(test<T>(0))::value;
 };
 
+inline std::string Serialize(std::vector<int> arr) { // 对整数 vector 进行序列化
+    std::string ans = "[";
+    bool first = true;
+    for(const auto& u: arr) {
+        if(first) {
+            first = false;
+        }else {
+            ans += ",";
+        }
+        ans += std::to_string(u);
+    }
+    return ans + "]";
+}
+
 template<typename _T> // 对列表进行序列化
 std::string Serialize(std::vector<_T> arr) {
     static_assert(has_serialize<_T>::value, "Error: The class must have a serialize method."); // 检查是否是合法的可序列化类型
@@ -150,6 +164,11 @@ inline bool operator==(const Point2d& p1, const Point2d& p2) {
 }
 inline bool operator!=(const Point2d& p1, const Point2d& p2) {
     return !(p1 == p2);
+}
+inline bool operator<(const Point2d& p1, const Point2d& p2) {
+    if(p1 == p2) return false;
+    if(abs(p1.x - p2.x) > EPS) return p1.x < p2.x;
+    return p1.y < p2.y;
 }
 typedef std::vector<Point2d> Point2dList;
 

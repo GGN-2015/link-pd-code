@@ -21,7 +21,10 @@ public:
     void getRandomProject(LinkInput* li); // 获取随机投影，存入一个指定 LinkInput
 
     std::string serialize() const;
-    std::vector<IntersectionRecord> getAllIntersect() const;
+
+    // std::vector<IntersectionRecord> 中记录所有交叉点
+    // std::vector<int> 中记录所有对应关系，交叉点可以两两配对
+    std::tuple<std::vector<IntersectionRecord>, std::vector<int>> getAllIntersect() const;
 
     Segment3dList getAllSegments3d() const;
     Segment2dList getAllSegments2d() const;

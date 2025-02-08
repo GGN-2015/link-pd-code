@@ -126,7 +126,7 @@ Segment2dList LinkInput::getAllSegments2d() const {
     return ans;
 }
 
-std::vector<IntersectionRecord> LinkInput::getAllIntersect() const {
+std::tuple<std::vector<IntersectionRecord>, std::vector<int>> LinkInput::getAllIntersect() const {
     std::vector<IntersectionRecord> ans;
     auto s2dl = getAllSegments2d();
     auto skdt = SegmentKdTree(s2dl);
@@ -136,6 +136,29 @@ std::vector<IntersectionRecord> LinkInput::getAllIntersect() const {
             ans.push_back(ir);
         }
     }
+    assert(ans.size() % 2 == 0); //  必须是偶数个交叉点才能配对
+
     sort(ans.begin(), ans.end(), IrCmp);
-    return ans; // 返回所有出现的交点
+    
+    std::vector<int> pair_vector(ans.size(), 0); // 构建配对情况
+    std::vector<int> tool_vector;
+    for(int i = 0; i < (int)ans.size(); i += 1) {
+        tool_vector.push_back(i);
+    }
+    sort(tool_vector.begin(), tool_vector.end(), [&](int x, int y){
+        auto cid_1 = ans[x].component_id;
+        auto sid_1 = ans[x].segment_id;
+        auto rat_1 = ans[x].rate;
+        auto pt_1  = (this -> getSegment(cid_1, sid_1)).abandonZ().step(rat_1);
+        auto cid_2 = ans[y].component_id;
+        auto sid_2 = ans[y].segment_id;
+        auto rat_2 = ans[y].rate;
+        auto pt_2  = (this -> getSegment(cid_2, sid_2)).abandonZ().step(rat_2);
+        return pt_1 < pt_2;
+    });
+    for(int i = 0; i < (int)tool_vector.size(); i += 1) {
+        pair_vector[tool_vector[i]] = tool_vector[i^1];
+    }
+
+    return make_tuple(ans, pair_vector); // 返回所有出现的交点以及配对情况
 }
