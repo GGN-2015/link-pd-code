@@ -39,10 +39,18 @@ void testDataType() { /* 用于测试数据类型的序列化是否正确 */
         Point2d p2d_2 {-1,  1};
         Point2d p2d_3 {-1, -1};
         Point2d p2d_4 { 1, -1};
-        assert(doubleToString(p2d_1.calculatePolarAngle()) == doubleToString(45.0 / 180.0 * PI));
-        assert(doubleToString(p2d_2.calculatePolarAngle()) == doubleToString(135.0 / 180.0 * PI));
-        assert(doubleToString(p2d_3.calculatePolarAngle()) == doubleToString(225.0 / 180.0 * PI));
-        assert(doubleToString(p2d_4.calculatePolarAngle()) == doubleToString(315.0 / 180.0 * PI));
+        assert(checkSame(p2d_1.calculatePolarAngle(),  45.0 / 180.0 * PI));
+        assert(checkSame(p2d_2.calculatePolarAngle(), 135.0 / 180.0 * PI));
+        assert(checkSame(p2d_3.calculatePolarAngle(), 225.0 / 180.0 * PI));
+        assert(checkSame(p2d_4.calculatePolarAngle(), 315.0 / 180.0 * PI));
         cout << OK_FLAG << "calculatePolarAngle" << endl;
+    }
+    {
+        Point3d p;
+        FILE* fpin = fopen("./src/test/data/TestPoint3d.txt", "r");
+        assert(fpin != nullptr);
+        p.input(fpin);
+        assert(p.serialize() == "(3.570000,2.640000,0.250000)");
+        cout << OK_FLAG << p.serialize() << endl;
     }
 }

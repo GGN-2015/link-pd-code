@@ -10,6 +10,10 @@
 static const double EPS = 1e-5;
 const double PI = std::acos(-1); // 定义 π 的值
 
+inline double checkSame(double d1, double d2) { // 检查两个浮点数是否相同
+    return abs(d1 - d2) < EPS;
+}
+
 // 保留六位小数
 static std::string doubleToString(double value, int precision=6) { 
     std::ostringstream out;
@@ -111,7 +115,7 @@ struct Point2d {
     }
 };
 inline bool operator==(const Point2d& p1, const Point2d& p2) {
-    return abs(p1.x - p2.x) < EPS && abs(p1.y - p2.y) < EPS;
+    return (p1 - p2).length() < 2 * EPS;
 }
 inline bool operator!=(const Point2d& p1, const Point2d& p2) {
     return !(p1 == p2);
@@ -121,6 +125,9 @@ typedef std::vector<Point2d> Point2dList;
 // 描述三维空间中的点
 struct Point3d {
     double x, y, z;
+    inline void input(FILE* fpin) { // 从指定的输入流输入一个坐标
+        fscanf(fpin, "%lf%lf%lf", &x, &y, &z);
+    }
     Point2d abandonZ() const { // 丢弃 z 坐标
         return (Point2d){x, y};
     }
@@ -199,7 +206,7 @@ struct Segment2d {
 
     // 线段的两个端点不重合
     bool isSegment() const {
-        return (pFrom - pTo).length() > EPS;
+        return (pFrom - pTo).length() > 2 * EPS;
     }
 
     AABB getAABB() const {
