@@ -1,4 +1,3 @@
-#include <iostream>
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
@@ -29,7 +28,7 @@ void generateRandomBasis(std::mt19937& gen, Coord3d& coord) {
     Point3d temp;
     do {
         temp = randomVector(gen);
-    } while (std::abs(temp.dot(u)) > 0.99);  // 确保不共线
+    } while (std::fabs(temp.dot(u)) > 0.99);  // 确保不共线
 
     // 计算与 u 正交的向量
     v = (temp - u * temp.dot(u)).normalize();

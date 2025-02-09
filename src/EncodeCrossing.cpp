@@ -1,5 +1,4 @@
 #include <cassert>
-#include <iostream>
 #include <EncodeCrossing.h>
 #include <SegmentIntersect.h>
 using namespace std;
@@ -39,7 +38,7 @@ EncodeCrossing::EncodeCrossing(const Segment3d& s3d_a, const Segment3d& s3d_b, s
         return;
     }
 
-    if(abs(pt1.z - pt2.z) <= EPS) {        // 两个 z 坐标必须可区分才可以
+    if(fabs(pt1.z - pt2.z) <= EPS) {        // 两个 z 坐标必须可区分才可以
         err = "segments meet in 3d space"; // 我们希望两个线段在二维空间中有交点但是在三维空间中没有交点
         return;
     }

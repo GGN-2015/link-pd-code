@@ -32,7 +32,7 @@ struct IntersectionRecord { // 记录交点信息
 };
 
 inline double checkSame(double d1, double d2) { // 检查两个浮点数是否相同
-    return abs(d1 - d2) < EPS;
+    return fabs(d1 - d2) < EPS;
 }
 
 // 检测类 A 是否有 serialize 方法
@@ -194,9 +194,15 @@ inline bool operator!=(const Point2d& p1, const Point2d& p2) {
     return !(p1 == p2);
 }
 inline bool operator<(const Point2d& p1, const Point2d& p2) {
-    if(p1 == p2) return false;
-    if(abs(p1.x - p2.x) > EPS) return p1.x < p2.x;
-    return p1.y < p2.y;
+    bool ans;
+    if(fabs(p1.x - p2.x) > EPS) {
+        ans = p1.x < p2.x;
+    } else if(fabs(p1.y - p2.y) > EPS) {
+        ans = p1.y < p2.y;
+    } else {
+        ans = false; // same
+    }
+    return ans;
 }
 typedef std::vector<Point2d> Point2dList;
 

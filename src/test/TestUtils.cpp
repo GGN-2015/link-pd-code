@@ -1,6 +1,7 @@
 #include <test/TestUtils.h>
 
 const char* OK_FLAG = "    \033[1;32mOK\033[0m:";
+const char* CHK_FLAG = "    \033[1;31mCHK\033[0m:";
 const std::vector<std::string> TEST_FILE_LIST {
     "./test_data/Knot/K0a1/data.txt",
     "./test_data/Knot/K3a1/data.txt",

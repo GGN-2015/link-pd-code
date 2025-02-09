@@ -1,12 +1,11 @@
 #include <cassert>
-#include <iostream>
 #include <SegmentIntersect.h>
 using namespace std;
 
 // 计算向量 pq 和 pr 的叉积，判断点 r 相对于线段 pq 的位置
 int orientation(const Point2d& p, const Point2d& q, const Point2d& r) {
     double val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
-    if (abs(val) < EPS) return 0;  // 共线
+    if (fabs(val) < EPS) return 0;  // 共线
     return (val > 0) ? 1 : 2; // 1 表示顺时针，2 表示逆时针
 }
 
@@ -46,7 +45,7 @@ bool findIntersection(const Point2d& p1, const Point2d& q1, const Point2d& p2, c
     double x4 = q2.x, y4 = q2.y;
 
     double denominator = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
-    if (abs(denominator) < EPS) { // 特殊处理线段平行的情况
+    if (fabs(denominator) < EPS) { // 特殊处理线段平行的情况
         double p2_proj = (p2 - p1).dot(q1 - p1) / (q1 - p1).length() / (q1 - p1).length();
         double q2_proj = (q2 - p1).dot(q1 - p1) / (q1 - p1).length() / (q1 - p1).length();
         double vmin = std::min(p2_proj, q2_proj);

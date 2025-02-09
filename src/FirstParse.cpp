@@ -1,5 +1,4 @@
 #include <FirstParse.h>
-#include <iostream>
 #include <set>
 using namespace std;
 
@@ -40,7 +39,7 @@ std::vector<CrossingCode> FirstParse::getFirstParseCode() { // 计算一个节�
             auto b_out = arc_sort_bucket[ir_vec[j].component_id].getAfterName (make_pair(ir_vec[j].segment_id, ir_vec[j].rate));
             auto ec = EncodeCrossing(s3d_a, s3d_b, a_in, a_out, b_in, b_out);
             if(ec.getErr() != "") {
-                cout << ec.getErr() << ":" << ec.serialize() << endl;
+                fprintf(stderr, "%s:%s\n", ec.getErr().c_str(), ec.serialize().c_str());
             }
             assert(ec.getErr() == ""); // 不允许出错
             ans.push_back(ec.getCode());

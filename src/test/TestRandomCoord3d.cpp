@@ -13,9 +13,9 @@ void testRandomCoord3d() { /* 用于测试随机生成三维投影方向 */
     Coord3d coord; // 生成一个随机坐标系
     generateRandomBasis(gen, coord);
 
-    auto udv = abs(coord.u.dot(coord.v)); // 检查是否是合法的坐标系
-    auto udw = abs(coord.u.dot(coord.w));
-    auto vdw = abs(coord.v.dot(coord.w));
+    auto udv = fabs(coord.u.dot(coord.v)); // 检查是否是合法的坐标系
+    auto udw = fabs(coord.u.dot(coord.w));
+    auto vdw = fabs(coord.v.dot(coord.w));
     assert(udv < EPS && udw < EPS && vdw < EPS);
     cout << OK_FLAG << coord.serialize() << endl;
 

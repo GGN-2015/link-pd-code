@@ -26,8 +26,8 @@ void testSegmentIntersect() { /* 用于测试线段求交的正确性 */
 
         double t1, t2; Point2d pt;
         si.getIntersect(t1, t2, pt);
-        assert(abs(t1 - 0.5) < EPS);
-        assert(abs(t2 - 0.5) < EPS);
+        assert(fabs(t1 - 0.5) < EPS);
+        assert(fabs(t2 - 0.5) < EPS);
         cout << OK_FLAG << s1.serialize() << s2.serialize() << "(" << t1 << "," << t2 << ")" << endl;
     }
     {
@@ -41,8 +41,8 @@ void testSegmentIntersect() { /* 用于测试线段求交的正确性 */
 
         double t1, t2; Point2d pt;
         si.getIntersect(t1, t2, pt);
-        assert(abs(t1 - 1.0/3) < EPS);
-        assert(abs(t2 - 2.0/3) < EPS);
+        assert(fabs(t1 - 1.0/3) < EPS);
+        assert(fabs(t2 - 2.0/3) < EPS);
         cout << OK_FLAG << s1.serialize() << s2.serialize() << "(" << t1 << "," << t2 << ")" << endl;
     }
     {
@@ -63,7 +63,7 @@ void testSegmentIntersect() { /* 用于测试线段求交的正确性 */
         double t1, t2; Point2d pt;
         si.getIntersect(t1, t2, pt);
 
-        assert(abs(t1 - 0.5) < EPS && abs(t2 - 0.5) < EPS);
+        assert(fabs(t1 - 0.5) < EPS && fabs(t2 - 0.5) < EPS);
         assert(pt.serialize() == "(4.000000,6.000000)");
         cout << OK_FLAG << s1.serialize() << s2.serialize() << endl;
     }

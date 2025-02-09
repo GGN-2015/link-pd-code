@@ -68,5 +68,7 @@ if __name__ == "__main__":
         for file in get_all_file("./test_data")
         if os.path.basename(file) == "data.txt"
     ])
-    content = '#include <test/TestUtils.h>\n\nconst char* OK_FLAG = "    \\033[1;32mOK\\033[0m:";\nconst std::vector<std::string> TEST_FILE_LIST {\n    %s};' % data_list
+    ok_flag = "const char* OK_FLAG = \"    \\033[1;32mOK\\033[0m:\";\n"
+    chk_flag = "const char* CHK_FLAG = \"    \\033[1;31mCHK\\033[0m:\";\n"
+    content = '#include <test/TestUtils.h>\n\n' + ok_flag + chk_flag + 'const std::vector<std::string> TEST_FILE_LIST {\n    %s};' % data_list
     open(test_utils_cpp, "w", encoding="utf-8").write(content)

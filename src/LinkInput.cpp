@@ -2,6 +2,8 @@
 #include <DataType.h>
 #include <LinkInput.h>
 
+using namespace std;
+
 LinkInput::LinkInput(std::mt19937& n_gen): 
     component_cnt(0), components({}), all_point3d({}), gen(n_gen) {
     // 初始化时候什么都不做
@@ -137,7 +139,6 @@ std::tuple<std::vector<IntersectionRecord>, std::vector<int>> LinkInput::getAllI
         }
     }
     assert(ans.size() % 2 == 0); //  必须是偶数个交叉点才能配对
-
     sort(ans.begin(), ans.end(), IrCmp);
     
     std::vector<int> pair_vector(ans.size(), 0); // 构建配对情况
@@ -145,16 +146,15 @@ std::tuple<std::vector<IntersectionRecord>, std::vector<int>> LinkInput::getAllI
     for(int i = 0; i < (int)ans.size(); i += 1) {
         tool_vector.push_back(i);
     }
-    sort(tool_vector.begin(), tool_vector.end(), [&](int x, int y){
+    auto getCrossing = [&](int x) {
         auto cid_1 = ans[x].component_id;
         auto sid_1 = ans[x].segment_id;
         auto rat_1 = ans[x].rate;
         auto pt_1  = (this -> getSegment(cid_1, sid_1)).abandonZ().step(rat_1);
-        auto cid_2 = ans[y].component_id;
-        auto sid_2 = ans[y].segment_id;
-        auto rat_2 = ans[y].rate;
-        auto pt_2  = (this -> getSegment(cid_2, sid_2)).abandonZ().step(rat_2);
-        return pt_1 < pt_2;
+        return pt_1;
+    };
+    sort(tool_vector.begin(), tool_vector.end(), [&](int x, int y){
+        return getCrossing(x) < getCrossing(y);
     });
     for(int i = 0; i < (int)tool_vector.size(); i += 1) {
         pair_vector[tool_vector[i]] = tool_vector[i^1];
@@ -162,14 +162,8 @@ std::tuple<std::vector<IntersectionRecord>, std::vector<int>> LinkInput::getAllI
     for(int i = 0; i < (int)pair_vector.size(); i += 1) { // 检查配对是否合法
         if(i < pair_vector[i]) {
             auto j = pair_vector[i];
-            auto cid_1 = ans[i].component_id;
-            auto sid_1 = ans[i].segment_id;
-            auto rat_1 = ans[i].rate;
-            auto pt_1  = (this -> getSegment(cid_1, sid_1)).abandonZ().step(rat_1);
-            auto cid_2 = ans[j].component_id;
-            auto sid_2 = ans[j].segment_id;
-            auto rat_2 = ans[j].rate;
-            auto pt_2  = (this -> getSegment(cid_2, sid_2)).abandonZ().step(rat_2);
+            auto pt_1  = getCrossing(i);
+            auto pt_2  = getCrossing(j);
             assert(pt_1 == pt_2);
         }
     }
