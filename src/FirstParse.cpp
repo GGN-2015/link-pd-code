@@ -2,9 +2,10 @@
 #include <set>
 using namespace std;
 
-FirstParse::FirstParse(LinkInput& link_input): link_input(link_input) {
+FirstParse::FirstParse(LinkInput& link_input): link_input(link_input), dfs_cnt(0) {
     component_cnt = link_input.getComponetCnt();
     auto [ir_vec_tmp, pair_vec_tmp] = link_input.getAllIntersect(); // 求交点
+    dfs_cnt += link_input.getDfsCnt();
     ir_vec   = ir_vec_tmp;
     pair_vec = pair_vec_tmp;
 
@@ -24,6 +25,10 @@ FirstParse::FirstParse(LinkInput& link_input): link_input(link_input) {
     for(int i = 0; i < component_cnt; i += 1) {
         if(bucket.count(i) == 0) no_crossing_component_cnt += 1;
     }
+}
+
+int FirstParse::getDfsCnt() const {
+    return dfs_cnt;
 }
 
 std::vector<CrossingCode> FirstParse::getFirstParseCode() { // 计算一个节点的编码

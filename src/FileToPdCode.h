@@ -10,7 +10,9 @@ class FileToPdCode {
 public:
     FileToPdCode(FILE* file, const unsigned int seed);
     std::vector<CrossingCode> getPdCode() const;
+    int getDfsCnt() const;
 
 private:
     std::vector<CrossingCode> pd_code;
+    int dfs_cnt;
 };

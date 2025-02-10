@@ -24,10 +24,12 @@ public:
 
     // std::vector<IntersectionRecord> 中记录所有交叉点
     // std::vector<int> 中记录所有对应关系，交叉点可以两两配对
-    std::tuple<std::vector<IntersectionRecord>, std::vector<int>> getAllIntersect() const;
+    std::tuple<std::vector<IntersectionRecord>, std::vector<int>> getAllIntersect();
 
     Segment3dList getAllSegments3d() const;
     Segment2dList getAllSegments2d() const;
+
+    int getDfsCnt() const;
 
 private:
     Point3dList getPoint3dList() const; // 获得所有点构成的 List 用于随机投影
@@ -38,4 +40,6 @@ private:
 
     ProjectCoord* pc;
     std::mt19937& gen;
+
+    int dfs_cnt;
 };

@@ -339,11 +339,11 @@ struct CrossingCode {
     std::string arc_name[4];
 
     std::string serialize() const {
-        std::string ans = "(" + arc_name[0];
+        std::string ans = "[" + arc_name[0];
         for(int i = 1; i < 4; i += 1) {
             ans += "," + arc_name[i];
         }
-        ans += ")";
+        ans += "]";
         return ans;
     }
 };

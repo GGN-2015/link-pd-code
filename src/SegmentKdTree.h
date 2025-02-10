@@ -63,17 +63,19 @@ public:
     ~SegmentKdTree(); // 释放所有内存
 
     std::vector<IntersectionRecord> 
-        getAllIntersect(const Segment2d& s2d) const; // 给定一个线段，求所有线段与已知线段的交点位置
+        getAllIntersect(const Segment2d& s2d); // 给定一个线段，求所有线段与已知线段的交点位置
                                                      // 返回的类型是（component id, segment id, rate）
                                                      // 计算时需要注意跳过同一根线段以及相邻的线段
 
     std::string serialize() const;
+    long long getDfsCnt() const; // 统计函数 getAllIntersectIn 总共被调用了多少次
 
 private:
     KdTreeNode* build(int l, int r, int depth=0);
-    void getAllIntersectIn(std::vector<IntersectionRecord>& ans, KdTreeNode* root, const Segment2d& s2d) const; // 获得某个节点中的所有交点
-    void getIntersectForS2d(std::vector<IntersectionRecord>& ans, const Segment2d& s2d_a, const Segment2d& s2d_b) const; // 两个线段求教点，计算 s2d_a 上的交点信息
+    void getAllIntersectIn(std::vector<IntersectionRecord>& ans, KdTreeNode* root, const Segment2d& s2d); // 获得某个节点中的所有交点
+    void getIntersectForS2d(std::vector<IntersectionRecord>& ans, const Segment2d& s2d_a, const Segment2d& s2d_b); // 两个线段求教点，计算 s2d_a 上的交点信息
 
     Segment2dList s2dl;
     KdTreeNode* root;
+    long long dfs_cnt; // 用于估计时间效率，统计函数 getAllIntersectIn 总共被调用了多少次
 };

@@ -5,7 +5,7 @@
 using namespace std;
 
 LinkInput::LinkInput(std::mt19937& n_gen): 
-    component_cnt(0), components({}), all_point3d({}), gen(n_gen) {
+    component_cnt(0), components({}), all_point3d({}), gen(n_gen), dfs_cnt(0) {
     // 初始化时候什么都不做
     pc = nullptr;
 }
@@ -14,6 +14,10 @@ LinkInput::~LinkInput() {
     if(pc != nullptr) {
         delete pc;
     }
+}
+
+int LinkInput::getDfsCnt() const {
+    return dfs_cnt;
 }
 
 void LinkInput::input(FILE* fpin) {
@@ -128,7 +132,7 @@ Segment2dList LinkInput::getAllSegments2d() const {
     return ans;
 }
 
-std::tuple<std::vector<IntersectionRecord>, std::vector<int>> LinkInput::getAllIntersect() const {
+std::tuple<std::vector<IntersectionRecord>, std::vector<int>> LinkInput::getAllIntersect() {
     std::vector<IntersectionRecord> ans;
     auto s2dl = getAllSegments2d();
     auto skdt = SegmentKdTree(s2dl);
@@ -138,6 +142,7 @@ std::tuple<std::vector<IntersectionRecord>, std::vector<int>> LinkInput::getAllI
             ans.push_back(ir);
         }
     }
+    dfs_cnt += skdt.getDfsCnt(); // 统计大概用了多少时间
     assert(ans.size() % 2 == 0); //  必须是偶数个交叉点才能配对
     sort(ans.begin(), ans.end(), IrCmp);
     

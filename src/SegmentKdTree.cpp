@@ -3,7 +3,10 @@
 #include <SegmentKdTree.h>
 #include <SegmentIntersect.h>
 
-SegmentKdTree::SegmentKdTree(const Segment2dList& s2dl) {
+#include <iostream>
+using namespace std;
+
+SegmentKdTree::SegmentKdTree(const Segment2dList& s2dl):dfs_cnt(0) {
     assert(s2dl.size() >= 1);
     this -> s2dl = s2dl;
     root = build(0, s2dl.size() - 1);
@@ -61,7 +64,7 @@ KdTreeNode* SegmentKdTree::build(int l, int r, int depth) { // Nlog^2N （实际
 }
 
 // 计算所有可能的线段交点
-std::vector<IntersectionRecord> SegmentKdTree::getAllIntersect(const Segment2d& s2d) const {
+std::vector<IntersectionRecord> SegmentKdTree::getAllIntersect(const Segment2d& s2d) {
     auto ans = std::vector<IntersectionRecord>{};
     getAllIntersectIn(ans, root, s2d);
     sort(ans.begin(), ans.end(), IrCmp);
@@ -69,7 +72,7 @@ std::vector<IntersectionRecord> SegmentKdTree::getAllIntersect(const Segment2d& 
 }
 
 // 求两个线段的交点
-void SegmentKdTree::getIntersectForS2d(std::vector<IntersectionRecord>& ans, const Segment2d& s2d_a, const Segment2d& s2d_b) const {
+void SegmentKdTree::getIntersectForS2d(std::vector<IntersectionRecord>& ans, const Segment2d& s2d_a, const Segment2d& s2d_b) {
     auto si = SegmentInteresect(s2d_a, s2d_b);
     if(!si.exist()) { // 交点不存在
         return;
@@ -86,10 +89,11 @@ void SegmentKdTree::getIntersectForS2d(std::vector<IntersectionRecord>& ans, con
 }
 
 // 获得某个节点中的所有交点
-void SegmentKdTree::getAllIntersectIn(std::vector<IntersectionRecord>& ans, KdTreeNode* root, const Segment2d& s2d) const {
+void SegmentKdTree::getAllIntersectIn(std::vector<IntersectionRecord>& ans, KdTreeNode* root, const Segment2d& s2d) {
     if(root == nullptr) { // 空节点
         return;
     }
+    dfs_cnt += 1;
     if(root -> s2d != nullptr) { // 叶子节点
         getIntersectForS2d(ans, *(root -> s2d), s2d); // 两个线段求交点的情况
         return;
@@ -102,4 +106,8 @@ void SegmentKdTree::getAllIntersectIn(std::vector<IntersectionRecord>& ans, KdTr
         getAllIntersectIn(ans, root -> ch[i], s2d);
     }
     return;
+}
+
+long long SegmentKdTree::getDfsCnt() const {
+    return dfs_cnt;
 }
